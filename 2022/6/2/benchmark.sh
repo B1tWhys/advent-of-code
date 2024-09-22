@@ -1,3 +1,4 @@
 #!/bin/bash
 
-go test -bench . -gcflags="-N -l"
+echo ----- Benchmarking -----
+go test -bench . # -gcflags="-N -l"

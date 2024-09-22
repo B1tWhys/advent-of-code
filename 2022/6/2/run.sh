@@ -1,4 +1,6 @@
 #!/bin/bash
 
 go build ./solution.go
-./solution
+for _ in {1..5}; do
+	./solution
+done
