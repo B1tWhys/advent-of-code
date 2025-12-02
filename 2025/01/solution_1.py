@@ -1,5 +1,5 @@
-# with open("sample_input") as f:
-with open("input") as f:
+with open("sample_input") as f:
+    # with open("input") as f:
     lines = f.read().strip().split("\n")
 
 dial = 50
@@ -12,4 +12,5 @@ for line in lines:
     dial %= 100
     if dial == 0:
         ans += 1
+    print(f"{line=} {dist=} {dial=}")
 print(f"{ans=}")
