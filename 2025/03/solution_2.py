@@ -1,32 +1,27 @@
 from functools import cache
 
+N = 12
+
 
 def max_joltage(bank):
-    def list2i(l):
-        ans = 0
-        for i in l:
-            ans *= 10
-            ans += i
-        return ans
+    memo = [[0] * (N + 1) for _ in range(len(bank) + 1)]  # memo[len][N]
 
-    @cache
-    def helper(prefix_len, n):
-        if n <= 1:
-            return [max(bank[:prefix_len])]
-        elif prefix_len <= n:
-            return bank[:prefix_len]
-        else:
-            opt1 = helper(prefix_len - 1, n - 1) + [bank[prefix_len - 1]]
-            opt2 = helper(prefix_len - 1, n)
-            return max(opt1, opt2, key=list2i)
+    for bank_length in range(1, len(bank) + 1):
+        for n in range(1, N + 1):
+            if n >= len(bank):
+                memo[bank_length][n] = memo[bank_length - 1][n]
+            else:
+                memo[bank_length][n] = max(
+                    memo[bank_length - 1][n - 1] * 10 + bank[bank_length - 1],
+                    memo[bank_length - 1][n],
+                )
 
-    return list2i(helper(len(bank), 12))
+    return memo[-1][-1]
 
 
-# with open("./sample_input") as f:
-with open("./input") as f:
+fname = "./sample_input" if not True else "./input"
+with open(fname) as f:
     banks = [list(map(int, b)) for b in f.read().strip().split("\n")]
-
 
 total = 0
 for b in banks:
