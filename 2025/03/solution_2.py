@@ -1,22 +1,21 @@
-from functools import cache
-
 N = 12
 
 
 def max_joltage(bank):
-    memo = [[0] * (N + 1) for _ in range(len(bank) + 1)]  # memo[len][N]
+    memo = [0] * (N + 1)
 
     for bank_length in range(1, len(bank) + 1):
+        new_memo = [0]
         for n in range(1, N + 1):
-            if n >= len(bank):
-                memo[bank_length][n] = memo[bank_length - 1][n]
-            else:
-                memo[bank_length][n] = max(
-                    memo[bank_length - 1][n - 1] * 10 + bank[bank_length - 1],
-                    memo[bank_length - 1][n],
+            new_memo.append(
+                max(
+                    memo[n - 1] * 10 + bank[bank_length - 1],
+                    memo[n],
                 )
+            )
+        memo = new_memo
 
-    return memo[-1][-1]
+    return memo[-1]
 
 
 fname = "./sample_input" if not True else "./input"
