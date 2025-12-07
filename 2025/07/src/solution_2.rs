@@ -1,6 +1,6 @@
 use crate::common::GridVal;
 
-pub fn solve(grid: &Vec<Vec<GridVal>>) {
+pub fn solve(grid: &[Vec<GridVal>]) {
     let mut prev_row: Vec<GridVal> = grid.first().expect("Input has no lines!").clone();
     let mut timeline_counts = vec![0u64; prev_row.len()];
     prev_row.iter()
@@ -12,14 +12,10 @@ pub fn solve(grid: &Vec<Vec<GridVal>>) {
         let mut new_row: Vec<GridVal> = new_row.clone();
         let mut new_timeline_counts = vec![0u64; prev_row.len()];
 
-        for i in prev_row.iter().enumerate().filter_map(|(i, val)| {
-            if *val == GridVal::Beam {
-                Some(i)
-            } else { None }
-        }) {
+        for (i, _) in prev_row.iter().enumerate().filter(|(_, v)| matches!(v, GridVal::Beam)) {
             if new_row[i] == GridVal::Splitter {
                 assert!(i > 0, "Attempted to split the beam off the left edge of the matrix");
-                assert!(i < new_row.len(), "Attempted to split the beam off the left edge of the matrix");
+                assert!(i + 1 < new_row.len(), "Attempted to split the beam off the right edge of the matrix");
 
                 new_row[i-1] = GridVal::Beam;
                 new_timeline_counts[i-1] += timeline_counts[i];

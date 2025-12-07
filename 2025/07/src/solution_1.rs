@@ -13,7 +13,7 @@ pub fn solve(grid: &Vec<Vec<GridVal>>) {
         }) {
             if new_row[i] == GridVal::Splitter {
                 assert!(i > 0, "Attempted to split the beam off the left edge of the matrix");
-                assert!(i < new_row.len(), "Attempted to split the beam off the left edge of the matrix");
+                assert!(i + 1 < new_row.len(), "Attempted to split the beam off the right edge of the matrix");
                 split_count += 1;
                 new_row[i-1] = GridVal::Beam;
                 new_row[i+1] = GridVal::Beam;
